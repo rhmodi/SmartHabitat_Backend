@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.team4.SmartHabitat.Entity.Preference;
 import com.team4.SmartHabitat.Utility.Message;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("${api.base.url}")
+@Tag(name="Preference APIs",description="Request and Get Preference")
 public class LocationController {
 	
 	
