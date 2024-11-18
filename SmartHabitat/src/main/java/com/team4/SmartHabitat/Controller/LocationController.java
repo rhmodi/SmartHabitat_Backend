@@ -12,10 +12,13 @@ import com.team4.SmartHabitat.Entity.Preference;
 import com.team4.SmartHabitat.Utility.Message;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("${api.base.url}")
 @Tag(name="Preference APIs",description="Request and Get Preference")
+@Slf4j
 public class LocationController {
 	
 	
@@ -24,7 +27,8 @@ public class LocationController {
 		return "Home";
 	}
 	@PostMapping("/request-habitat")
-	public ResponseEntity<?> requestHabitat(@RequestBody Preference preference) {
+	public ResponseEntity<?> requestHabitat(@Valid @RequestBody Preference preference) {
+		log.info("Response Send"+preference);
 		return  ResponseEntity.status(HttpStatus.OK).body(Message.successRequestMessage());
 	}
 	@GetMapping("/allhabitat")

@@ -1,9 +1,8 @@
 package com.team4.SmartHabitat.Entity;
 
-import org.springframework.context.annotation.Bean;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,6 +10,9 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class Preference {
+	@NotNull(message = "City is a required field and cannot be null.")
+	@JsonProperty("city")
+	private String city;
 	@JsonProperty("crimeRate")
 	private int crimeRatePreference;
 	@JsonProperty("environmentRate")
