@@ -19,3 +19,6 @@ Application is running on port `3001`.
 
 ## API documentation
 Hit the following API for api documentation:- `http://server:port/context-path/swagger-ui.html`
+
+## API information
+See `logs` in logs folder
