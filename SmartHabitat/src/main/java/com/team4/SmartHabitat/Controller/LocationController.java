@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team4.SmartHabitat.Entity.Preference;
+import com.team4.SmartHabitat.Exception.BadRequestException;
+import com.team4.SmartHabitat.Exception.InternalServerErrorException;
 import com.team4.SmartHabitat.Utility.Message;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,11 +30,21 @@ public class LocationController {
 	}
 	@PostMapping("/request-habitat")
 	public ResponseEntity<?> requestHabitat(@Valid @RequestBody Preference preference) {
-		log.info("Response Send"+preference);
-		return  ResponseEntity.status(HttpStatus.OK).body(Message.successRequestMessage());
+		log.info("Response Recieved: {}", preference);
+	
+	
+		try {
+			log.info("Processing Successful: {}", preference);
+			return  ResponseEntity.status(HttpStatus.OK).body(Message.successRequestMessage());
+		}catch(Exception ex) {
+			log.error("[Internal Server Error]: {} ", ex);
+			throw new InternalServerErrorException("Error Occurred while processing the request");
+		}
+		
 	}
 	@GetMapping("/allhabitat")
 	public ResponseEntity<?> getAllHabitat() {
+		log.info("Retrieved all habitats according to preferences");
 		return  ResponseEntity.status(HttpStatus.OK).body(Message.recieveMessage());
 	}
 }
