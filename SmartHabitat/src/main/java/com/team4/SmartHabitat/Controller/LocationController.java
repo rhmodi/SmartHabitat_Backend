@@ -30,6 +30,11 @@ public class LocationController {
 	public String home() {
 		return "Home";
 	}
+	@GetMapping("/updateIndex")
+	public void updateIndex() {
+		locationService.CalcCrimeIndex();
+	}
+
 	@PostMapping("/request-habitat")
 	public ResponseEntity<?> requestHabitat(@Valid @RequestBody Preference preference) {
 		log.info("Response Recieved: {}", preference);
