@@ -13,16 +13,16 @@ public class Preference {
 	@NotNull(message = "City is a required field and cannot be null.")
 	@JsonProperty("city")
 	private String city;
-	@JsonProperty("crimeRate")
-	private int crimeRatePreference;
-	@JsonProperty("environmentRate")
-	private int environmentRatePreference;
-	@JsonProperty("airQualityIndex")
-	private int airQualityIndex;
-	@JsonProperty("heatMetricIndex")
-	private int heatMetricIndex;
-	@JsonProperty("uvRadiationIndex")
-	private int uvRadiationIndex;
-	@JsonProperty("precipationIndex")
-	private int precipationIndex;
+	@JsonProperty("crimePreferencePercent")
+	private int crimePreferencePercent;
+	@JsonProperty("environmentPreferencePercent")
+	private int environmentPreferencePercent;
+	@JsonProperty("airQualityPriority")
+	private int airQualityPriority;
+	@JsonProperty("heatMetricPriority")
+	private int heatMetricPriority;
+	@JsonProperty("uvRadiationPriority")
+	private int uvRadiationPriority;
+	@JsonProperty("precipationPriority")
+	private int precipationPriority;
 }
