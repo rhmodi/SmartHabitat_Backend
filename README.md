@@ -3,7 +3,7 @@
 Application is running on port `3001`.
 
 ## Installation Requirement ##
-1. lombok jar :- [lombok](https://projectlombok.org/download)
+1. lombok jar :- [lombok](https://projectlombok.org/download) - Not necessary
 2. Maven version:- `3.9.9`
 3. Java 17 or higher
 
