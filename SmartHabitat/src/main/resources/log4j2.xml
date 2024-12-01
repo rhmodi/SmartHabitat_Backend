@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" name="Smart Habitat">
+     <Properties>
+        <!-- Define a property for the log file path -->
+        <Property name="LOG_PATH">./logs</Property>
+    </Properties>
+    <Appenders>
+    		<RollingFile name="filelogs"
+					fileName="${LOG_PATH}/smarthabitat.log"
+					filePattern="${LOG_PATH}/smarthabitat-%d{yyyy-MM-dd}.log">
+				
+			   <Policies>
+                <!-- Roll over logs every 2 day -->
+                <TimeBasedTriggeringPolicy interval="2" modulate="true"/>
+            </Policies>
+            
+             <DefaultRolloverStrategy max="1">
+                <!-- Prevent creation of additional files -->
+                <Delete basePath="${LOG_PATH}" maxDepth="1">
+                    <IfFileName glob="smarthabitat-*.log" />
+                    <IfLastModified age="2d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            
+            
+	
+	</RollingFile>
+    </Appenders>
+
+	 <Loggers>
+        <Root level="info">
+            <AppenderRef ref="filelogs"/>
+        </Root>
+    </Loggers>
+</Configuration>
