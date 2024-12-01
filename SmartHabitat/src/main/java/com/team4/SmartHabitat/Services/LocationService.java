@@ -1,0 +1,7 @@
+package com.team4.SmartHabitat.Services;
+
+
+public interface LocationService {
+	
+    public void getService();
+}
