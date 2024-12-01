@@ -4,18 +4,29 @@ import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class SparqlConfig {
 
-	@Value("${api.graphDB}")
+    @Value("${api.graphDB}")
     private String sparqlEndpointUrl;
-	
-	 @Bean
-	    public SPARQLRepository sparqlRepository() {
-	        SPARQLRepository repository = new SPARQLRepository(sparqlEndpointUrl);
-	       
-	        repository.init();
-	        return repository;
-	    }
+
+    // @Value("${api.graphDB.update}")
+    // private String sparqlUpdateEndpointUrl;
+
+    // @Primary
+    @Bean
+    public SPARQLRepository sparqlQueryRepository() {
+        SPARQLRepository repository = new SPARQLRepository(sparqlEndpointUrl, sparqlEndpointUrl + "/statements");
+        repository.init();
+        return repository;
+    }
+
+    // @Bean
+    // public SPARQLRepository sparqlUpdateRepository() {
+    //     SPARQLRepository updateRepository = new SPARQLRepository(sparqlUpdateEndpointUrl);
+    //     updateRepository.init();
+    //     return updateRepository;
+    // }
 }
