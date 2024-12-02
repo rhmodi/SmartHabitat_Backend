@@ -12,6 +12,8 @@ import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team4.SmartHabitat.Entity.Preference;
+
 @Service
 public class LocationServiceImpl implements LocationService {
 
@@ -174,16 +176,76 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
+    @Override
     public void insertEnvIndex() {
 
         String queryAllIndex = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
-                       "INSERT { ?community smh:hasEnvironmentIndex 0 . } \r\n" +
-                       "WHERE { ?community a smh:Community . }";
+                       "INSERT { ?county smh:hasEnvironmentIndex 0 . } \r\n" +
+                       "WHERE { ?county a smh:County . }";
         
         try (var connection = sparqlQueryRepository.getConnection()) {
             Update update = connection.prepareUpdate(QueryLanguage.SPARQL, queryAllIndex);
             update.execute();
         }
+    }
+
+    @Override
+    public void updateEnvIndex(Preference preference) {
+        // Fetch indices for all counties
+        String queryFetchIndices = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+                                "SELECT ?county ?airQuality ?precipitation ?heat ?uv \r\n" +
+                                "WHERE {\r\n" +
+                                "  ?county a smh:County .\r\n" +
+                                "  ?county smh:AirQualityIndex ?airQuality .\r\n" +
+                                "  ?county smh:PrecipitationIndex ?precipitation .\r\n" +
+                                "  ?county smh:HeatIndex ?heat .\r\n" +
+                                "  ?county smh:UVIndex ?uv .\r\n" +
+                                "}";
+
+        try (var connection = sparqlQueryRepository.getConnection()) {
+            TupleQuery tupleQuery = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryFetchIndices);
+
+            // Evaluate the query and calculate the Environment Index for each county
+            try (TupleQueryResult result = tupleQuery.evaluate()) {
+                while (result.hasNext()) {
+                    BindingSet bindingSet = result.next();
+
+                    // Fetch county and indices
+                    String county = bindingSet.getValue("county").stringValue();
+                    float airQuality = Float.parseFloat(bindingSet.getValue("airQuality").stringValue());
+                    float precipitation = Float.parseFloat(bindingSet.getValue("precipitation").stringValue());
+                    float heat = Float.parseFloat(bindingSet.getValue("heat").stringValue());
+                    float uv = Float.parseFloat(bindingSet.getValue("uv").stringValue());
+
+                    // Calculate Environment Index
+                    float environmentIndex = (preference.airQualityPriority * airQuality) +
+                                            (preference.precipationPriority * precipitation) +
+                                            (preference.heatMetricPriority * heat) +
+                                            (preference.uvRadiationPriority * uv);
+                                            
+                    // TO DO: Normalise environmentIndex
+
+                    // Update Environment Index for the county
+                    String updateQuery = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+                                        // TO DO: Delete not deleting all existing envIndex
+                                        "DELETE { <" + county + "> smh:EnvironmentIndex ?oldEnvIndex . }\r\n" +
+                                        "INSERT { <" + county + "> smh:EnvironmentIndex " + environmentIndex + " . }\r\n" +
+                                        "WHERE { OPTIONAL { <" + county + "> smh:EnvironmentIndex ?oldEnvIndex . } }";
+
+                    // Execute the update query
+                    Update update = connection.prepareUpdate(QueryLanguage.SPARQL, updateQuery);
+                    update.execute();
+
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public void updatePrefIndex(Preference preference) {
+
+
     }
 
 }

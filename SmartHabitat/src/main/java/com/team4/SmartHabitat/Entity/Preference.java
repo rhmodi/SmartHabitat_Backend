@@ -12,17 +12,17 @@ import lombok.Data;
 public class Preference {
 	@NotNull(message = "City is a required field and cannot be null.")
 	@JsonProperty("city")
-	private String city;
+	public String city;
 	@JsonProperty("crimePreferencePercent")
-	private int crimePreferencePercent;
+	public int crimePreferencePercent;
 	@JsonProperty("environmentPreferencePercent")
-	private int environmentPreferencePercent;
+	public int environmentPreferencePercent;
 	@JsonProperty("airQualityPriority")
-	private int airQualityPriority;
+	public int airQualityPriority;
 	@JsonProperty("heatMetricPriority")
-	private int heatMetricPriority;
+	public int heatMetricPriority;
 	@JsonProperty("uvRadiationPriority")
-	private int uvRadiationPriority;
+	public int uvRadiationPriority;
 	@JsonProperty("precipationPriority")
-	private int precipationPriority;
+	public int precipationPriority;
 }

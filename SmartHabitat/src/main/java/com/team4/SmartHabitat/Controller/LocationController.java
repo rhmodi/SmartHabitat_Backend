@@ -40,6 +40,22 @@ public class LocationController {
 		locationService.insertEnvIndex();
 	}
 
+	@PostMapping("/updateEnvIndex")
+	public ResponseEntity<?> updateEnvIndex(@Valid @RequestBody Preference preference) {
+		log.info("Response Recieved: {}", preference);
+		locationService.updateEnvIndex(preference);
+	
+	
+		try {
+			log.info("Processing Successful: {}", preference);
+			return  ResponseEntity.status(HttpStatus.OK).body(Message.successRequestMessage());
+		}catch(Exception ex) {
+			log.error("[Internal Server Error]: {} ", ex);
+			throw new InternalServerErrorException("Error Occurred while processing the request");
+		}
+		
+	}
+
 	@PostMapping("/request-habitat")
 	public ResponseEntity<?> requestHabitat(@Valid @RequestBody Preference preference) {
 		log.info("Response Recieved: {}", preference);
