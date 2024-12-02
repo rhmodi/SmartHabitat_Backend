@@ -223,7 +223,7 @@ public class LocationServiceImpl implements LocationService {
                                             (preference.heatMetricPriority * heat) +
                                             (preference.uvRadiationPriority * uv);
 
-                    // TO DO: Normalise environmentIndex
+                    environmentIndex = normalizeEnvIndex(environmentIndex);
 
                     // Delete separated out
                     // TO DO: Still not working
@@ -258,6 +258,16 @@ public class LocationServiceImpl implements LocationService {
     public void updatePrefIndex(Preference preference) {
 
 
+    }
+
+    public float normalizeEnvIndex(float currentEnvIndex) {
+        float minValue = 10.0f; // Minimum possible value ((1×1)+(2×1)+(3×1)+(4×1)=10)
+        float maxValue = 100.0f; // Maximum possible value ((1×10)+(2×10)+(3×10)+(4×10)=100)
+        float newMin = 1.0f; // Desired normalized range minimum
+        float newMax = 10.0f; // Desired normalized range maximum
+    
+        // Apply normalization formula
+        return ((currentEnvIndex - minValue) / (maxValue - minValue)) * (newMax - newMin) + newMin;
     }
 
 }
