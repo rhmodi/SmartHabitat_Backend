@@ -2,14 +2,12 @@ package com.team4.SmartHabitat.Services;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.jena.sparql.function.library.max;
+
 import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.QueryLanguage;
 import org.eclipse.rdf4j.query.TupleQuery;
 import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.query.Update;
-import org.eclipse.rdf4j.query.algebra.Str;
-import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -176,5 +174,16 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
+    public void insertEnvIndex() {
+
+        String queryAllIndex = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+                       "INSERT { ?community smh:hasEnvironmentIndex 0 . } \r\n" +
+                       "WHERE { ?community a smh:Community . }";
+        
+        try (var connection = sparqlQueryRepository.getConnection()) {
+            Update update = connection.prepareUpdate(QueryLanguage.SPARQL, queryAllIndex);
+            update.execute();
+        }
+    }
 
 }
