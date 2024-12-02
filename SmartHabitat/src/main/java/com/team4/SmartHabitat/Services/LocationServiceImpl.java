@@ -222,20 +222,32 @@ public class LocationServiceImpl implements LocationService {
                                             (preference.precipationPriority * precipitation) +
                                             (preference.heatMetricPriority * heat) +
                                             (preference.uvRadiationPriority * uv);
-                                            
+
                     // TO DO: Normalise environmentIndex
 
+                    // Delete separated out
+                    // TO DO: Still not working
+                    String deleteQuery = 
+                        "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\n" +
+                        "DELETE {\n" +
+                        "    ?county smh:EnvironmentIndex ?value .\n" +
+                        "}\n" +
+                        "WHERE {\n" +
+                        "    ?county smh:EnvironmentIndex ?value .\n" +
+                        "    FILTER(?county = <" + county + ">)\n" +
+                        "}";
+        
+                    // Prepare and execute the query
+                    Update deleteUpdate = connection.prepareUpdate(QueryLanguage.SPARQL, deleteQuery);
+                    deleteUpdate.execute();
+
                     // Update Environment Index for the county
-                    String updateQuery = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
-                                        // TO DO: Delete not deleting all existing envIndex
-                                        "DELETE { <" + county + "> smh:EnvironmentIndex ?oldEnvIndex . }\r\n" +
-                                        "INSERT { <" + county + "> smh:EnvironmentIndex " + environmentIndex + " . }\r\n" +
-                                        "WHERE { OPTIONAL { <" + county + "> smh:EnvironmentIndex ?oldEnvIndex . } }";
+                    String insertQuery = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\n" +
+                    "INSERT DATA { <" + county + "> smh:EnvironmentIndex " + environmentIndex + " . }";
 
-                    // Execute the update query
-                    Update update = connection.prepareUpdate(QueryLanguage.SPARQL, updateQuery);
-                    update.execute();
-
+                    // Execute INSERT query
+                    Update insertUpdate = connection.prepareUpdate(QueryLanguage.SPARQL, insertQuery);
+                    insertUpdate.execute();
                 }
             }
         }
