@@ -1,6 +1,8 @@
 package com.team4.SmartHabitat.Services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.rdf4j.query.BindingSet;
@@ -190,8 +192,80 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    public List<Map.Entry<String, Float>> CalculateOverallIndex(Preference preference) {
+
+        //TO-DO replace smh:HeatIndex with smh:NormalizedHeatIndex
+        String queryFetchIndicesByCommunities = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+        "SELECT ?community ?finalCrimeIndex (AVG(?heat) AS ?avgHeat) (AVG(?uv) AS ?avgUV) (AVG(?precipitation) AS ?avgPrecipitation) (AVG(?airQuality) AS ?avgAirQuality)\r\n" +
+        "WHERE {\r\n" +
+        "  ?community a smh:Community .\r\n" +
+        "  ?community smh:isLocatedIn ?county .\r\n" +
+        "  ?county a smh:County .\r\n" +
+        "  ?community smh:CrimeIndexRaw ?finalCrimeIndex .\r\n" +
+        "  ?county smh:HeatIndex ?heat .\r\n" +
+        "  ?county smh:UVIndex ?uv .\r\n" +
+        "  ?county smh:PrecipitationIndex ?precipitation .\r\n" +
+        "  ?county smh:AirQualityIndex ?airQuality .\r\n" +
+        "}\r\n" +
+        "GROUP BY ?community ?finalCrimeIndex";
+        
+
+        try (var connection = sparqlQueryRepository.getConnection()) {
+            TupleQuery tupleQuery = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryFetchIndicesByCommunities);
+
+            // Evaluate the query and calculate the Environment Index for each Community
+            try (TupleQueryResult result = tupleQuery.evaluate()) {
+                Map<String, Float> communityOverallIndexMap = new HashMap<>();
+
+                while (result.hasNext()) {
+                    BindingSet bindingSet = result.next();
+                    // Fetch community and indices
+                    String community = bindingSet.getValue("community").toString();
+                    
+                    float airQuality = Float.parseFloat(bindingSet.getValue("avgAirQuality").stringValue());
+
+                    float finalCrimeIndex = Float.parseFloat(bindingSet.getValue("finalCrimeIndex").stringValue());
+
+                    float precipitation = Float.parseFloat(bindingSet.getValue("avgPrecipitation").stringValue());
+
+                    float heat = Float.parseFloat(bindingSet.getValue("avgHeat").stringValue());
+
+                    float uv = Float.parseFloat(bindingSet.getValue("avgUV").stringValue());
+
+                    float crimeWeightage =  preference.crimePreferencePercent;
+                    float environmentWeightage=  preference.environmentPreferencePercent;
+
+
+                    // Calculate Environment Index
+                    float environmentIndex = (preference.airQualityPriority * airQuality) +
+                                            (preference.precipationPriority * precipitation) +
+                                            (preference.heatMetricPriority * heat) +
+                                            (preference.uvRadiationPriority * uv);
+
+                    environmentIndex = normalizeEnvIndex(environmentIndex);
+
+                    //calulating the habitable index with final env and crime index
+                    float overallIndex = environmentIndex * (environmentWeightage/100) + finalCrimeIndex * (crimeWeightage/100);  
+                    communityOverallIndexMap.put(community, overallIndex);
+
+                }
+                //sort the map in descending order
+                List<Map.Entry<String, Float>> indexList = new ArrayList<>(communityOverallIndexMap.entrySet());
+                indexList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+        
+                int topN = Math.min(5, indexList.size());
+                List<Map.Entry<String, Float>> top5Entries = indexList.subList(0, topN);
+                return top5Entries;
+
+            }
+        }
+
+    }
+
+    //@Kaumudi Remove this
+    @Override
     public void updateEnvIndex(Preference preference) {
-        // Fetch indices for all counties
+
         String queryFetchIndices = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
                                 "SELECT ?county ?airQuality ?precipitation ?heat ?uv \r\n" +
                                 "WHERE {\r\n" +
