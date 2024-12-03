@@ -10,7 +10,5 @@ public interface LocationService {
     public void CalcCrimeIndex();
     public void CalcEnvironmentIndex();
     public void insertEnvIndex();
-    public void updateEnvIndex(Preference preference); // for every county
-    public void updatePrefIndex(Preference preference); // for every community
     public List<Map.Entry<String, Float>> CalculateOverallIndex(Preference preference);
 }

@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jena.sparql.function.library.leviathan.log;
 import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.QueryLanguage;
 import org.eclipse.rdf4j.query.TupleQuery;
 import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.query.Update;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -281,9 +283,29 @@ private void normalizeAndInsertIndex(RepositoryConnection connection, String que
         "  ?county smh:AirQualityIndexNormalized ?airQuality .\r\n" +
         "}";
         
+        String City = preference.city;
+        String queryFetchIndicesByCommunitiesForCity = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+        "SELECT ?community ?finalCrimeIndex ?heat ?uv ?precipitation ?airQuality\r\n" +
+        "WHERE {\r\n" +
+        "  ?community a smh:Community .\r\n" +
+        "  ?community smh:isLocatedIn smh:" + City + " .\r\n" +
+        "  ?community smh:isLocatedIn ?county .\r\n" +
+        "  ?county a smh:County .\r\n" +
+        "  ?community smh:CrimeIndexRaw ?finalCrimeIndex .\r\n" +
+        "  ?county smh:HeatIndexNormalized ?heat .\r\n" +
+        "  ?county smh:UVIndexNormalized ?uv .\r\n" +
+        "  ?county smh:PrecipitationIndexNormalized ?precipitation .\r\n" +
+        "  ?county smh:AirQualityIndexNormalized ?airQuality .\r\n" +
+        "}";
 
         try (var connection = sparqlQueryRepository.getConnection()) {
-            TupleQuery tupleQuery = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryFetchIndicesByCommunities);
+            TupleQuery tupleQuery;
+            if("Any".equals(City)) {
+                tupleQuery = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryFetchIndicesByCommunities);
+            }
+            else {
+                tupleQuery = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryFetchIndicesByCommunitiesForCity);
+            }
 
             // Evaluate the query and calculate the Environment Index for each Community
             try (TupleQueryResult result = tupleQuery.evaluate()) {
