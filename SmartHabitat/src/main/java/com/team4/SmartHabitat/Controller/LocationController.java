@@ -1,5 +1,8 @@
 package com.team4.SmartHabitat.Controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +39,24 @@ public class LocationController {
 		locationService.CalcEnvironmentIndex();
 	}
 
+	@PostMapping("/CalculateOverallIndex")
+	public ResponseEntity<?> CalculateOverallIndex(@Valid @RequestBody Preference preference) {
+		log.info("Response Recieved: {}", preference);
+		List<Map.Entry<String, Float>> response = locationService.CalculateOverallIndex(preference);
+		try {
+			log.info("Processing Successful: {}", response);
+			return  ResponseEntity.status(HttpStatus.OK).body(response);
+		}catch (Exception ex) {
+			log.error("[Internal Server Error]: {} ", ex);
+			throw new InternalServerErrorException("Error Occurred while processing the request");
+		}
+	}
+
 	@GetMapping("/insertEnvIndex")
 	public void insertEnvIndex() {
 		locationService.insertEnvIndex();
 	}
+
 
 	@PostMapping("/request-habitat")
 	public ResponseEntity<?> requestHabitat(@Valid @RequestBody Preference preference) {

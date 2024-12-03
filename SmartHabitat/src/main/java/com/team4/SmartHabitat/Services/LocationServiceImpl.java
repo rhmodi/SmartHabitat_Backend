@@ -1,8 +1,11 @@
 package com.team4.SmartHabitat.Services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.jena.sparql.function.library.leviathan.log;
 import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.QueryLanguage;
 import org.eclipse.rdf4j.query.TupleQuery;
@@ -10,8 +13,11 @@ import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.query.Update;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.team4.SmartHabitat.Entity.Preference;
 
 @Service
 public class LocationServiceImpl implements LocationService {
@@ -252,13 +258,114 @@ private void normalizeAndInsertIndex(RepositoryConnection connection, String que
     public void insertEnvIndex() {
 
         String queryAllIndex = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
-                       "INSERT { ?community smh:hasEnvironmentIndex 0 . } \r\n" +
-                       "WHERE { ?community a smh:Community . }";
+                       "INSERT { ?county smh:hasEnvironmentIndex 0 . } \r\n" +
+                       "WHERE { ?county a smh:County . }";
         
         try (var connection = sparqlQueryRepository.getConnection()) {
             Update update = connection.prepareUpdate(QueryLanguage.SPARQL, queryAllIndex);
             update.execute();
         }
+    }
+
+    @Override
+    public List<Map.Entry<String, Float>> CalculateOverallIndex(Preference preference) {
+
+        //TO-DO replace smh:HeatIndex with smh:NormalizedHeatIndex
+        String queryFetchIndicesByCommunities = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+        "SELECT ?community ?finalCrimeIndex ?heat ?uv ?precipitation ?airQuality\r\n" +
+        "WHERE {\r\n" +
+        "  ?community a smh:Community .\r\n" +
+        "  ?community smh:isLocatedIn ?county .\r\n" +
+        "  ?county a smh:County .\r\n" +
+        "  ?community smh:CrimeIndexRaw ?finalCrimeIndex .\r\n" +
+        "  ?county smh:HeatIndexNormalized ?heat .\r\n" +
+        "  ?county smh:UVIndexNormalized ?uv .\r\n" +
+        "  ?county smh:PrecipitationIndexNormalized ?precipitation .\r\n" +
+        "  ?county smh:AirQualityIndexNormalized ?airQuality .\r\n" +
+        "}";
+        
+        String City = preference.city;
+        String queryFetchIndicesByCommunitiesForCity = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+        "SELECT ?community ?finalCrimeIndex ?heat ?uv ?precipitation ?airQuality\r\n" +
+        "WHERE {\r\n" +
+        "  ?community a smh:Community .\r\n" +
+        "  ?community smh:isLocatedIn smh:" + City + " .\r\n" +
+        "  ?community smh:isLocatedIn ?county .\r\n" +
+        "  ?county a smh:County .\r\n" +
+        "  ?community smh:CrimeIndexRaw ?finalCrimeIndex .\r\n" +
+        "  ?county smh:HeatIndexNormalized ?heat .\r\n" +
+        "  ?county smh:UVIndexNormalized ?uv .\r\n" +
+        "  ?county smh:PrecipitationIndexNormalized ?precipitation .\r\n" +
+        "  ?county smh:AirQualityIndexNormalized ?airQuality .\r\n" +
+        "}";
+
+        try (var connection = sparqlQueryRepository.getConnection()) {
+            TupleQuery tupleQuery;
+            if("Any".equals(City)) {
+                tupleQuery = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryFetchIndicesByCommunities);
+            }
+            else {
+                tupleQuery = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryFetchIndicesByCommunitiesForCity);
+            }
+
+            // Evaluate the query and calculate the Environment Index for each Community
+            try (TupleQueryResult result = tupleQuery.evaluate()) {
+                Map<String, Float> communityOverallIndexMap = new HashMap<>();
+
+                while (result.hasNext()) {
+                    BindingSet bindingSet = result.next();
+                    // Fetch community and indices
+                    String community = bindingSet.getValue("community").toString();
+                    
+                    float airQuality = Float.parseFloat(bindingSet.getValue("airQuality").stringValue());
+
+                    float finalCrimeIndex = Float.parseFloat(bindingSet.getValue("finalCrimeIndex").stringValue());
+
+                    float precipitation = Float.parseFloat(bindingSet.getValue("precipitation").stringValue());
+
+                    float heat = Float.parseFloat(bindingSet.getValue("heat").stringValue());
+
+                    float uv = Float.parseFloat(bindingSet.getValue("uv").stringValue());
+
+                    float crimeWeightage =  preference.crimePreferencePercent;
+                    float environmentWeightage=  preference.environmentPreferencePercent;
+
+
+                    // Calculate Environment Index
+                    float environmentIndex = (preference.airQualityPriority * airQuality) +
+                                            (preference.precipationPriority * precipitation) +
+                                            (preference.heatMetricPriority * heat) +
+                                            (preference.uvRadiationPriority * uv);
+
+                    environmentIndex = normalizeEnvIndex(environmentIndex);
+
+                    //calulating the habitable index with final env and crime index
+                    float overallIndex = environmentIndex * (environmentWeightage/100) + finalCrimeIndex * (crimeWeightage/100);  
+                    communityOverallIndexMap.put(community, overallIndex);
+
+                }
+                System.out.println(communityOverallIndexMap);
+                //sort the map in descending order
+                List<Map.Entry<String, Float>> indexList = new ArrayList<>(communityOverallIndexMap.entrySet());
+                indexList.sort((entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue()));
+        
+                int topN = Math.min(5, indexList.size());
+                List<Map.Entry<String, Float>> top5Entries = indexList.subList(0, topN);
+                return top5Entries;
+
+            }
+        }
+
+    }
+
+    public float normalizeEnvIndex(float currentEnvIndex) {
+        float minValue = 10.0f; // Minimum possible value ((1×1)+(2×1)+(3×1)+(4×1)=10)
+        float maxValue = 100.0f; // Maximum possible value ((1×10)+(2×10)+(3×10)+(4×10)=100)
+        float newMin = 1.0f; // Desired normalized range minimum
+        float newMax = 10.0f; // Desired normalized range maximum
+    
+        // Apply normalization formula
+        return ((currentEnvIndex - minValue) / (maxValue - minValue)) * (newMax - newMin) + newMin;
     }
 
 }
