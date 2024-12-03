@@ -4,4 +4,5 @@ public interface LocationService {
     public void getService();
     public void CalcCrimeIndex();
     public void CalcEnvironmentIndex();
+    public void insertEnvIndex();
 }

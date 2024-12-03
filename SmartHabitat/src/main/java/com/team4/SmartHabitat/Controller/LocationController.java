@@ -36,6 +36,11 @@ public class LocationController {
 		locationService.CalcEnvironmentIndex();
 	}
 
+	@GetMapping("/insertEnvIndex")
+	public void insertEnvIndex() {
+		locationService.insertEnvIndex();
+	}
+
 	@PostMapping("/request-habitat")
 	public ResponseEntity<?> requestHabitat(@Valid @RequestBody Preference preference) {
 		log.info("Response Recieved: {}", preference);
