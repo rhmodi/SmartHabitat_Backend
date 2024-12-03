@@ -196,18 +196,17 @@ public class LocationServiceImpl implements LocationService {
 
         //TO-DO replace smh:HeatIndex with smh:NormalizedHeatIndex
         String queryFetchIndicesByCommunities = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
-        "SELECT ?community ?finalCrimeIndex (AVG(?heat) AS ?avgHeat) (AVG(?uv) AS ?avgUV) (AVG(?precipitation) AS ?avgPrecipitation) (AVG(?airQuality) AS ?avgAirQuality)\r\n" +
+        "SELECT ?community ?finalCrimeIndex ?heat ?uv ?precipitation ?airQuality\r\n" +
         "WHERE {\r\n" +
         "  ?community a smh:Community .\r\n" +
         "  ?community smh:isLocatedIn ?county .\r\n" +
         "  ?county a smh:County .\r\n" +
         "  ?community smh:CrimeIndexRaw ?finalCrimeIndex .\r\n" +
-        "  ?county smh:HeatIndex ?heat .\r\n" +
-        "  ?county smh:UVIndex ?uv .\r\n" +
-        "  ?county smh:PrecipitationIndex ?precipitation .\r\n" +
-        "  ?county smh:AirQualityIndex ?airQuality .\r\n" +
-        "}\r\n" +
-        "GROUP BY ?community ?finalCrimeIndex";
+        "  ?county smh:HeatIndexNormalized ?heat .\r\n" +
+        "  ?county smh:UVIndexNormalized ?uv .\r\n" +
+        "  ?county smh:PrecipitationIndexNormalized ?precipitation .\r\n" +
+        "  ?county smh:AirQualityIndexNormalized ?airQuality .\r\n" +
+        "}";
         
 
         try (var connection = sparqlQueryRepository.getConnection()) {
@@ -222,15 +221,15 @@ public class LocationServiceImpl implements LocationService {
                     // Fetch community and indices
                     String community = bindingSet.getValue("community").toString();
                     
-                    float airQuality = Float.parseFloat(bindingSet.getValue("avgAirQuality").stringValue());
+                    float airQuality = Float.parseFloat(bindingSet.getValue("airQuality").stringValue());
 
                     float finalCrimeIndex = Float.parseFloat(bindingSet.getValue("finalCrimeIndex").stringValue());
 
-                    float precipitation = Float.parseFloat(bindingSet.getValue("avgPrecipitation").stringValue());
+                    float precipitation = Float.parseFloat(bindingSet.getValue("precipitation").stringValue());
 
-                    float heat = Float.parseFloat(bindingSet.getValue("avgHeat").stringValue());
+                    float heat = Float.parseFloat(bindingSet.getValue("heat").stringValue());
 
-                    float uv = Float.parseFloat(bindingSet.getValue("avgUV").stringValue());
+                    float uv = Float.parseFloat(bindingSet.getValue("uv").stringValue());
 
                     float crimeWeightage =  preference.crimePreferencePercent;
                     float environmentWeightage=  preference.environmentPreferencePercent;
@@ -249,9 +248,10 @@ public class LocationServiceImpl implements LocationService {
                     communityOverallIndexMap.put(community, overallIndex);
 
                 }
+                System.out.println(communityOverallIndexMap);
                 //sort the map in descending order
                 List<Map.Entry<String, Float>> indexList = new ArrayList<>(communityOverallIndexMap.entrySet());
-                indexList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+                indexList.sort((entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue()));
         
                 int topN = Math.min(5, indexList.size());
                 List<Map.Entry<String, Float>> top5Entries = indexList.subList(0, topN);
@@ -259,78 +259,6 @@ public class LocationServiceImpl implements LocationService {
 
             }
         }
-
-    }
-
-    //@Kaumudi Remove this
-    @Override
-    public void updateEnvIndex(Preference preference) {
-
-        String queryFetchIndices = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
-                                "SELECT ?county ?airQuality ?precipitation ?heat ?uv \r\n" +
-                                "WHERE {\r\n" +
-                                "  ?county a smh:County .\r\n" +
-                                "  ?county smh:AirQualityIndex ?airQuality .\r\n" +
-                                "  ?county smh:PrecipitationIndex ?precipitation .\r\n" +
-                                "  ?county smh:HeatIndex ?heat .\r\n" +
-                                "  ?county smh:UVIndex ?uv .\r\n" +
-                                "}";
-
-        try (var connection = sparqlQueryRepository.getConnection()) {
-            TupleQuery tupleQuery = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryFetchIndices);
-
-            // Evaluate the query and calculate the Environment Index for each county
-            try (TupleQueryResult result = tupleQuery.evaluate()) {
-                while (result.hasNext()) {
-                    BindingSet bindingSet = result.next();
-
-                    // Fetch county and indices
-                    String county = bindingSet.getValue("county").stringValue();
-                    float airQuality = Float.parseFloat(bindingSet.getValue("airQuality").stringValue());
-                    float precipitation = Float.parseFloat(bindingSet.getValue("precipitation").stringValue());
-                    float heat = Float.parseFloat(bindingSet.getValue("heat").stringValue());
-                    float uv = Float.parseFloat(bindingSet.getValue("uv").stringValue());
-
-                    // Calculate Environment Index
-                    float environmentIndex = (preference.airQualityPriority * airQuality) +
-                                            (preference.precipationPriority * precipitation) +
-                                            (preference.heatMetricPriority * heat) +
-                                            (preference.uvRadiationPriority * uv);
-
-                    environmentIndex = normalizeEnvIndex(environmentIndex);
-
-                    // Delete separated out
-                    // TO DO: Still not working
-                    String deleteQuery = 
-                        "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\n" +
-                        "DELETE {\n" +
-                        "    ?county smh:EnvironmentIndex ?value .\n" +
-                        "}\n" +
-                        "WHERE {\n" +
-                        "    ?county smh:EnvironmentIndex ?value .\n" +
-                        "    FILTER(?county = <" + county + ">)\n" +
-                        "}";
-        
-                    // Prepare and execute the query
-                    Update deleteUpdate = connection.prepareUpdate(QueryLanguage.SPARQL, deleteQuery);
-                    deleteUpdate.execute();
-
-                    // Update Environment Index for the county
-                    String insertQuery = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\n" +
-                    "INSERT DATA { <" + county + "> smh:EnvironmentIndex " + environmentIndex + " . }";
-
-                    // Execute INSERT query
-                    Update insertUpdate = connection.prepareUpdate(QueryLanguage.SPARQL, insertQuery);
-                    insertUpdate.execute();
-                }
-            }
-        }
-    }
-
-
-    @Override
-    public void updatePrefIndex(Preference preference) {
-
 
     }
 
