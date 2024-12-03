@@ -176,5 +176,79 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
+    @Override
+    public void CalcEnvironmentIndex() {
+        String queryAirQuality = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+                                "SELECT ?county (AVG(?airQuality) AS ?AirQualityIndex) \r\n" +
+                                "WHERE {\r\n" +
+                                "   ?county a smh:County;\r\n" +
+                                "               smh:AirQualityIndex ?airQuality.\r\n" +
+                                "}\r\n" +
+                                "GROUP BY ?county";
+
+        String queryHeatIndex = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+                                "SELECT ?county (AVG(?heat) AS ?HeatIndex) \r\n" +
+                                "WHERE {\r\n" +
+                                "   ?county a smh:County;\r\n" +
+                                "               smh:HeatIndex ?heat.\r\n" +
+                                "}\r\n" +
+                                "GROUP BY ?county";
+
+        String queryPrecipitation = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+                                    "SELECT ?county (AVG(?precipitation) AS ?PrecipitationIndex) \r\n" +
+                                    "WHERE {\r\n" +
+                                    "   ?county a smh:County;\r\n" +
+                                    "               smh:PrecipitationIndex ?precipitation.\r\n" +
+                                    "}\r\n" +
+                                    "GROUP BY ?county";
+
+        String queryUV = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+                        "SELECT ?county (AVG(?uv) AS ?UVIndex) \r\n" +
+                        "WHERE {\r\n" +
+                        "   ?county a smh:County;\r\n" +
+                        "               smh:UVIndex ?uv.\r\n" +
+                        "}\r\n" +
+                        "GROUP BY ?county";
+
+        try (RepositoryConnection connection = sparqlQueryRepository.getConnection()) {
+            normalizeAndInsertIndex(connection, queryAirQuality, "AirQualityIndex", "smh:AirQualityIndexNormalized");
+
+            normalizeAndInsertIndex(connection, queryHeatIndex, "HeatIndex", "smh:HeatIndexNormalized");
+
+            normalizeAndInsertIndex(connection, queryPrecipitation, "PrecipitationIndex", "smh:PrecipitationIndexNormalized");
+
+            normalizeAndInsertIndex(connection, queryUV, "UVIndex", "smh:UVIndexNormalized");
+        }
+}
+
+private void normalizeAndInsertIndex(RepositoryConnection connection, String query, String indexName, String normalizedPredicate) {
+    try (TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate()) {
+        Map<String, Float> countyIndexMap = new HashMap<>();
+        float maxIndex = 0;
+
+        while (result.hasNext()) {
+            BindingSet bindingSet = result.next();
+            String indexStr = bindingSet.getValue(indexName).toString().substring(1, bindingSet.getValue(indexName).toString().indexOf("^") - 1);
+            float indexValue = Float.parseFloat(indexStr);
+            if (indexValue > maxIndex) {
+                maxIndex = indexValue;
+            }
+            String county = bindingSet.getValue("county").toString();
+            countyIndexMap.put(county, (float) indexValue);
+        }
+        for (Map.Entry<String, Float> entry : countyIndexMap.entrySet()) {
+            String county = entry.getKey();
+            float normalizedIndex = (entry.getValue() / maxIndex) * 10;
+            String insertQuery = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+                                 "INSERT DATA { <" + county + "> " + normalizedPredicate + " " + normalizedIndex + " }";
+
+            System.out.println(insertQuery);
+            Update update = connection.prepareUpdate(QueryLanguage.SPARQL, insertQuery);
+            update.execute();
+        }
+    }
+}
+
+
 
 }

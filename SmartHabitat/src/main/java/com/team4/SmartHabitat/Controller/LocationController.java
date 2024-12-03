@@ -33,6 +33,7 @@ public class LocationController {
 	@GetMapping("/updateIndex")
 	public void updateIndex() {
 		locationService.CalcCrimeIndex();
+		locationService.CalcEnvironmentIndex();
 	}
 
 	@PostMapping("/request-habitat")
