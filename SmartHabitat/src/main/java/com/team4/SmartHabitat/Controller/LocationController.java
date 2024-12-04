@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 public class LocationController {
 	@Autowired
 	private LocationService locationService;
+
+	@Value("${api.graphDB}")
+    private String sparqlEndpointUrl;
+
 	
 	@GetMapping("/home")
 	public String home() {
@@ -88,4 +93,10 @@ public class LocationController {
 		log.info("Retrieved all habitats according to preferences");
 		return  ResponseEntity.status(HttpStatus.OK).body(Message.recieveMessage());
 	}
+
+
+	@GetMapping("/debug")
+    public String debug() {
+        return "GraphDB API: " + sparqlEndpointUrl;
+    }
 }
