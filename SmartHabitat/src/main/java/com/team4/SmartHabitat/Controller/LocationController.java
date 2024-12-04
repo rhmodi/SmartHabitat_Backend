@@ -66,10 +66,6 @@ public class LocationController {
 		}
 	}
 
-	@GetMapping("/insertEnvIndex")
-	public void insertEnvIndex() {
-		locationService.insertEnvIndex();
-	}
 
 
 	@PostMapping("/request-habitat")

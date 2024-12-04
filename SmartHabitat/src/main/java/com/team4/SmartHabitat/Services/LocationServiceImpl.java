@@ -196,7 +196,6 @@ public class LocationServiceImpl implements LocationService {
                     }
                     float finalNormalizedIndex = (finalIndexValue / maxIndex) * 10;
                     communityFinalIndexMapping.put(community, finalNormalizedIndex);
-                    System.out.println(community + " -> " + finalNormalizedIndex);
                 }
                 for (Map.Entry<String, Float> entry : communityFinalIndexMapping.entrySet()) {
                     String community = entry.getKey();
@@ -282,18 +281,6 @@ private void normalizeAndInsertIndex(RepositoryConnection connection, String que
     }
 }
 
-
-    public void insertEnvIndex() {
-
-        String queryAllIndex = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
-                       "INSERT { ?county smh:hasEnvironmentIndex 0 . } \r\n" +
-                       "WHERE { ?county a smh:County . }";
-        
-        try (var connection = sparqlQueryRepository.getConnection()) {
-            Update update = connection.prepareUpdate(QueryLanguage.SPARQL, queryAllIndex);
-            update.execute();
-        }
-    }
 
     @Override
     public List<Map.Entry<String, Float>> CalculateOverallIndex(Preference preference) {

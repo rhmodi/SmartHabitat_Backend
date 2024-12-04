@@ -10,7 +10,6 @@ public interface LocationService {
     public void getService();
     public void CalcCrimeIndex();
     public void CalcEnvironmentIndex();
-    public void insertEnvIndex();
     public List<Map.Entry<String, Float>> CalculateOverallIndex(Preference preference);
     public Community getCommunityDetails(Community name);
 }
