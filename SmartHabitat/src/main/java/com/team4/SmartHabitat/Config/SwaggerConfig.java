@@ -15,7 +15,7 @@ public class SwaggerConfig {
 	@Bean
 	public OpenAPI customConfig() {
 		return new OpenAPI().info(new Info().title("Smart Habitat System").description("By Team4")).servers(List.of(new Server().url("http://localhost:3001").description("local"),
-				new Server().url("http://localhost:3001").description("live")
+				new Server().url("https://smarthabitatfinder.azurewebsites.net").description("live")
 				));
 	}
 }
