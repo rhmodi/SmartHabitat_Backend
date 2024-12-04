@@ -77,6 +77,11 @@ public class LocationServiceImpl implements LocationService {
                         "    \tsmh:SeriousCrimesIndex ?SerIndex;\r\n" + //
                         "    \tsmh:ModerateCrimesIndex ?modIndex.\r\n" + //
                         "}";
+        String queryFinalIndex = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" + //
+                        "select ?community ?finalIndex where {\r\n" + //
+                        "    ?community a smh:Community;\r\n" + //
+                        "    \tsmh:CrimeIndexRaw ?finalIndex.\r\n" + //
+                        "}";
 
         // Fetch Crimes Create Index and Insert into RDF
         try (var connection = sparqlQueryRepository.getConnection()) {
@@ -84,6 +89,7 @@ public class LocationServiceImpl implements LocationService {
             TupleQuery tupleQuerySerious = connection.prepareTupleQuery(QueryLanguage.SPARQL, querySerious);
             TupleQuery tupleQueryModerate = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryModerate);
             TupleQuery tupleQueryAllIndex = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryAllIndex);
+            TupleQuery tupleQueryFinalIndex = connection.prepareTupleQuery(QueryLanguage.SPARQL, queryFinalIndex);
             try (TupleQueryResult result = tupleQueryCritical.evaluate()) {
                 Map<String, Float> communityCriticalIndexMap = new HashMap<>();
                 int maxCrimes = 0;
@@ -173,6 +179,30 @@ public class LocationServiceImpl implements LocationService {
                     float finalIndex = entry.getValue();
                     String insertQuery = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
                                          "INSERT DATA { <" + community + "> smh:CrimeIndexRaw " + finalIndex + " }";
+                    Update update = connection.prepareUpdate(QueryLanguage.SPARQL, insertQuery);
+                    update.execute();
+                }
+            }
+            try (TupleQueryResult result = tupleQueryFinalIndex.evaluate()){
+                float maxIndex = 0;
+                Map<String, Float> communityFinalIndexMapping = new HashMap<>();
+                while (result.hasNext()) {
+                    BindingSet bindingSet = result.next();
+                    String community = bindingSet.getValue("community").toString();
+                    String finalIndex = (bindingSet.getValue("finalIndex").toString().substring(1, bindingSet.getValue("finalIndex").toString().indexOf("^") - 1));
+                    float finalIndexValue = Float.parseFloat(finalIndex);
+                    if (finalIndexValue > maxIndex){
+                        maxIndex = finalIndexValue;
+                    }
+                    float finalNormalizedIndex = (finalIndexValue / maxIndex) * 10;
+                    communityFinalIndexMapping.put(community, finalNormalizedIndex);
+                    System.out.println(community + " -> " + finalNormalizedIndex);
+                }
+                for (Map.Entry<String, Float> entry : communityFinalIndexMapping.entrySet()) {
+                    String community = entry.getKey();
+                    float finalIndex = entry.getValue();
+                    String insertQuery = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
+                                         "INSERT DATA { <" + community + "> smh:CrimeIndex " + finalIndex + " }";
                     Update update = connection.prepareUpdate(QueryLanguage.SPARQL, insertQuery);
                     update.execute();
                 }
