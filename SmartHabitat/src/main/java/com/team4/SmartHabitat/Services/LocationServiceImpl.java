@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jena.shacl.sys.C;
+import org.apache.jena.sparql.function.library.leviathan.cartesian;
 import org.apache.jena.sparql.function.library.leviathan.log;
 import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.QueryLanguage;
@@ -17,6 +19,7 @@ import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team4.SmartHabitat.Entity.Community;
 import com.team4.SmartHabitat.Entity.Preference;
 
 @Service
@@ -91,17 +94,15 @@ public class LocationServiceImpl implements LocationService {
                     if (criticalValue > maxCrimes){
                         maxCrimes = criticalValue;
                     }
-                    float criticalIndex = ((float)criticalValue / maxCrimes) * 10;
+                    float criticalIndex = ((float)criticalValue / maxCrimes) * 9 + 1;
                     String community = bindingSet.getValue("community").toString();
                     communityCriticalIndexMap.put(community, criticalIndex);
-                    System.out.println(community + " -> " + criticalIndex);
                 }
                 for (Map.Entry<String, Float> entry : communityCriticalIndexMap.entrySet()) {
                     String community = entry.getKey();
                     float criticalIndex = entry.getValue();
                     String insertQuery = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
                                         "INSERT DATA { <" + community + "> smh:CriticalCrimesIndex " + criticalIndex + " }";
-                    System.out.println(insertQuery);
                     Update update = connection.prepareUpdate(QueryLanguage.SPARQL, insertQuery);
                     update.execute();
                 }
@@ -116,10 +117,9 @@ public class LocationServiceImpl implements LocationService {
                     if (seriousValue > maxCrimes){
                         maxCrimes = seriousValue;
                     }
-                    float seriousIndex = ((float)seriousValue / maxCrimes) * 10;
+                    float seriousIndex = ((float)seriousValue / maxCrimes) * 9 + 1;
                     String community = bindingSet.getValue("community").toString();
                     communitySeriousIndexMap.put(community, seriousIndex);
-                    System.out.println(community + " -> " + seriousIndex);
                 }
                 for (Map.Entry<String, Float> entry : communitySeriousIndexMap.entrySet()) {
                     String community = entry.getKey();
@@ -140,10 +140,9 @@ public class LocationServiceImpl implements LocationService {
                     if (moderateValue > maxCrimes){
                         maxCrimes = moderateValue;
                     }
-                    float moderateIndex = ((float)moderateValue / maxCrimes) * 10;
+                    float moderateIndex = ((float)moderateValue / maxCrimes) * 9 + 1;
                     String community = bindingSet.getValue("community").toString();
                     communityModerateIndexMap.put(community, moderateIndex);
-                    System.out.println(community + " -> " + moderateIndex);
                 }
                 for (Map.Entry<String, Float> entry : communityModerateIndexMap.entrySet()) {
                     String community = entry.getKey();
@@ -243,11 +242,10 @@ private void normalizeAndInsertIndex(RepositoryConnection connection, String que
         }
         for (Map.Entry<String, Float> entry : countyIndexMap.entrySet()) {
             String county = entry.getKey();
-            float normalizedIndex = (entry.getValue() / maxIndex) * 10;
+            float normalizedIndex = (entry.getValue() / maxIndex) * 9 + 1;
             String insertQuery = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
                                  "INSERT DATA { <" + county + "> " + normalizedPredicate + " " + normalizedIndex + " }";
 
-            System.out.println(insertQuery);
             Update update = connection.prepareUpdate(QueryLanguage.SPARQL, insertQuery);
             update.execute();
         }
@@ -270,7 +268,6 @@ private void normalizeAndInsertIndex(RepositoryConnection connection, String que
     @Override
     public List<Map.Entry<String, Float>> CalculateOverallIndex(Preference preference) {
 
-        //TO-DO replace smh:HeatIndex with smh:NormalizedHeatIndex
         String queryFetchIndicesByCommunities = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" +
         "SELECT ?community ?finalCrimeIndex ?heat ?uv ?precipitation ?airQuality\r\n" +
         "WHERE {\r\n" +
@@ -344,7 +341,6 @@ private void normalizeAndInsertIndex(RepositoryConnection connection, String que
                     communityOverallIndexMap.put(community, overallIndex);
 
                 }
-                System.out.println(communityOverallIndexMap);
                 //sort the map in descending order
                 List<Map.Entry<String, Float>> indexList = new ArrayList<>(communityOverallIndexMap.entrySet());
                 indexList.sort((entry1, entry2) -> entry1.getValue().compareTo(entry2.getValue()));
@@ -366,6 +362,47 @@ private void normalizeAndInsertIndex(RepositoryConnection connection, String que
     
         // Apply normalization formula
         return ((currentEnvIndex - minValue) / (maxValue - minValue)) * (newMax - newMin) + newMin;
+    }
+
+    @Override   
+    public Community getCommunityDetails(Community name) {
+        String City = name.IRI;
+        String query = "PREFIX smh: <http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#>\r\n" + //
+                        "select ?name ?seriousCrimeIndex ?moderateCrimeIndex ?criticalCrimeIndex (AVG(?AQI) as ?AQI) (AVG(?heatIndex) as ?heat) (AVG(?uvIndex) as ?uv) (AVG(?PrecIndex) as ?Prec)\r\n" + //
+                        "where {\r\n" + //
+                        "    <"+ City +"> a smh:Community ;\r\n" + //
+                        "    \tsmh:hasName ?name;\r\n" + //
+                        "    \tsmh:CriticalCrimesIndex ?criticalCrimeIndex;\r\n" + //
+                        "    \tsmh:ModerateCrimesIndex ?moderateCrimeIndex;\r\n" + //
+                        "    \tsmh:SeriousCrimesIndex ?seriousCrimeIndex;\r\n" + //
+                        "    \tsmh:isLocatedIn ?county.\r\n" + //
+                        "    ?county a smh:County;\r\n" + //
+                        "    \tsmh:AirQualityIndex ?AQI;\r\n" + //
+                        "    \tsmh:HeatIndex ?heatIndex;\r\n" + //
+                        "    \tsmh:PrecipitationIndex ?PrecIndex;\r\n" + //
+                        "    \tsmh:UVIndex ?uvIndex.\r\n" + //
+                        "} Group By ?name ?seriousCrimeIndex ?moderateCrimeIndex ?criticalCrimeIndex";
+        try (var connection = sparqlQueryRepository.getConnection()) {
+            TupleQuery queryCall = connection.prepareTupleQuery(QueryLanguage.SPARQL, query);
+            try(TupleQueryResult result = queryCall.evaluate()) {
+                if(result.hasNext()) {
+                    BindingSet bindingSet = result.next();
+                    Community community = new Community();
+                    community.name = bindingSet.getValue("name").stringValue();
+                    community.seriousCrimeIndex = Float.parseFloat(bindingSet.getValue("seriousCrimeIndex").stringValue());
+                    community.moderateCrimeIndex = Float.parseFloat(bindingSet.getValue("moderateCrimeIndex").stringValue());
+                    community.criticalCrimeIndex = Float.parseFloat(bindingSet.getValue("criticalCrimeIndex").stringValue());
+                    community.airQualityIndex = Float.parseFloat(bindingSet.getValue("AQI").stringValue());
+                    community.heatIndex = Float.parseFloat(bindingSet.getValue("heat").stringValue());
+                    community.uvRadiationIndex = Float.parseFloat(bindingSet.getValue("uv").stringValue());
+                    community.precipitationIndex = Float.parseFloat(bindingSet.getValue("Prec").stringValue());
+                    return community;
+                }
+                else {
+                    return null;
+                }
+            }
+        }
     }
 
 }

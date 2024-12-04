@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team4.SmartHabitat.Entity.Community;
 import com.team4.SmartHabitat.Entity.Preference;
 import com.team4.SmartHabitat.Exception.InternalServerErrorException;
 import com.team4.SmartHabitat.Services.LocationService;
@@ -46,6 +47,19 @@ public class LocationController {
 		try {
 			log.info("Processing Successful: {}", response);
 			return  ResponseEntity.status(HttpStatus.OK).body(response);
+		}catch (Exception ex) {
+			log.error("[Internal Server Error]: {} ", ex);
+			throw new InternalServerErrorException("Error Occurred while processing the request");
+		}
+	}
+
+	@PostMapping("/getCommunityDetails")
+	public ResponseEntity<?> getCommunityDetails(@Valid @RequestBody Community name) {
+		log.info("Response Recieved: {}", name);
+		Community community = locationService.getCommunityDetails(name);
+		try {
+			log.info("Processing Successful: {}", community);
+			return  ResponseEntity.status(HttpStatus.OK).body(community);
 		}catch (Exception ex) {
 			log.error("[Internal Server Error]: {} ", ex);
 			throw new InternalServerErrorException("Error Occurred while processing the request");
