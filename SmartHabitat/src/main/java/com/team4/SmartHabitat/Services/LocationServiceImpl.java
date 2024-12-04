@@ -388,8 +388,7 @@ private void normalizeAndInsertIndex(RepositoryConnection connection, String que
                         "select ?name ?seriousCrimeIndex ?moderateCrimeIndex ?criticalCrimeIndex (AVG(?AQI) as ?AQI) (AVG(?heatIndex) as ?heat) (AVG(?uvIndex) as ?uv) (AVG(?PrecIndex) as ?Prec)\r\n" + //
                         "where {\r\n" + //
                         "    <"+ City +"> a smh:Community ;\r\n" + //
-                        "    \tsmh:hasName ?name;\r\n" + //
-                        "    \tsmh:CriticalCrimesIndex ?criticalCrimeIndex;\r\n" + //
+                       "    \tsmh:CriticalCrimesIndex ?criticalCrimeIndex;\r\n" + //
                         "    \tsmh:ModerateCrimesIndex ?moderateCrimeIndex;\r\n" + //
                         "    \tsmh:SeriousCrimesIndex ?seriousCrimeIndex;\r\n" + //
                         "    \tsmh:isLocatedIn ?county.\r\n" + //
@@ -397,7 +396,8 @@ private void normalizeAndInsertIndex(RepositoryConnection connection, String que
                         "    \tsmh:AirQualityIndex ?AQI;\r\n" + //
                         "    \tsmh:HeatIndex ?heatIndex;\r\n" + //
                         "    \tsmh:PrecipitationIndex ?PrecIndex;\r\n" + //
-                        "    \tsmh:UVIndex ?uvIndex.\r\n" + //
+                        "    \tsmh:UVIndex ?uvIndex;\r\n" + //
+                        "        smh:hasName ?name.\r\n" + //
                         "} Group By ?name ?seriousCrimeIndex ?moderateCrimeIndex ?criticalCrimeIndex";
         try (var connection = sparqlQueryRepository.getConnection()) {
             TupleQuery queryCall = connection.prepareTupleQuery(QueryLanguage.SPARQL, query);
