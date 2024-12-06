@@ -37,7 +37,7 @@ public class LocationController {
 	
 	@GetMapping("/home")
 	public String home() {
-		return "Home";
+		return "Welcome to Smart Habitat Finder APP !!!";
 	}
 	@GetMapping("/updateIndex")
 	public void updateIndex() {
