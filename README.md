@@ -1,4 +1,4 @@
-## Smart Habitat ##
+# Smart Habitat 
 
 Welcome to the `Smart Habitat Backend`! This is a Spring Boot application that provides RESTful API services for the Smart Habitat project. It utilizes a graph database for storing knowledge graphs and supports SPARQL queries.
 
