@@ -1,0 +1,1053 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat/"
+     xml:base="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat/"
+     xmlns:ns="http://creativecommons.org/ns#"
+     xmlns:geo="http://www.geonames.org/ontology#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:adms="http://www.w3.org/ns/adms#"
+     xmlns:foaf="http://xmlns.com/foaf/0.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:vann="http://purl.org/vocab/vann/"
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:relators="http://id.loc.gov/vocabulary/relators/"
+     xmlns:smartHabitat="http://www.semanticweb.org/rakshilmodi/ontologies/2024/10/smartHabitat#"
+     xmlns:smartHabitat1="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat">
+        <owl:imports rdf:resource="http://www.geonames.org/ontology"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasCatergory -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasCatergory">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Crime"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeCategory"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasCrime -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasCrime">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Crime"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isInCity -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isInCity">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isLocatedIn"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#City"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isInCounty -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isInCounty">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isLocatedIn"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#City"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isLocatedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isLocatedIn">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GeographicType"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GeographicType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AirQualityIndex -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AirQualityIndex">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AirQualityIndexNormalized -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AirQualityIndexNormalized">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeIndex -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeIndex">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeIndexRaw -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeIndexRaw">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CriticalCrimesIndex -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CriticalCrimesIndex">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HeatIndex -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HeatIndex">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HeatIndexNormalized -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HeatIndexNormalized">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ModerateCrimesIndex -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ModerateCrimesIndex">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#PrecipitationIndex -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#PrecipitationIndex">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#PrecipitationIndexNormalized -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#PrecipitationIndexNormalized">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SeriousCrimesIndex -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SeriousCrimesIndex">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#UVIndex -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#UVIndex">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#UVIndexNormalized -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#UVIndexNormalized">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasID -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasID">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Crime"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasName">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GeographicType"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasValue -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasValue">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://geovocab.org/spatial#Feature -->
+
+    <rdf:Description rdf:about="http://geovocab.org/spatial#Feature">
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GeographicType"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllAssault -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllAssault">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHomicide"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffense"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBattery -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBattery">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHomicide"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Arson"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ChildPornography"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffense"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Shooting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBurglary -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBurglary">
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllRobbery"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Serious"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHomicide"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffense"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHomicide -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHomicide">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Arson"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ChildPornography"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffense"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Shooting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffense"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllLewdConduct -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllLewdConduct">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Moderate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllNarcotics -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllNarcotics">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Serious"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllRobbery -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllRobbery">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Serious"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Arson -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Arson">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffense"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Assault -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Assault">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllAssault"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AssualtWithDeadlyWeapon -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AssualtWithDeadlyWeapon">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllAssault"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Battery -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Battery">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBattery"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BatterySimpleAssault -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BatterySimpleAssault">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllAssault"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBattery"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BatteryWithSexualContact"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BatteryWithSexualContact -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BatteryWithSexualContact">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBattery"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BikeTheft -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BikeTheft">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Theft"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Burglary -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Burglary">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBurglary"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryAttempted -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryAttempted">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBurglary"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicle -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBurglary"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicleAttempted -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicleAttempted">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBurglary"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ChildPornography -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ChildPornography">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffense"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ChildStealing -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ChildStealing">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#City -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#City">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GeographicType"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isInCounty"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Community">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GeographicType"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#isInCity"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#City"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#County">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GeographicType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Crime -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Crime">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasCatergory"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeCategory"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasID"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2002/07/owl#rational"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeCategory -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeCategory"/>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CriminalHomicide -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CriminalHomicide">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHomicide"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#NonCriminalHomicide"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CriminalSexualAssualt -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CriminalSexualAssualt">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CriminalTheftNoWeaponDisplayed -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CriminalTheftNoWeaponDisplayed">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Threat"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeCategory"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#DrugsToAMinor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#DrugsToAMinor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllNarcotics"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#EmbezzlementGrandTheft -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#EmbezzlementGrandTheft">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Theft"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GeographicType -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GeographicType">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#hasName"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GrandTheft -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#GrandTheft">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllRobbery"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Homicide -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Homicide">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHomicide"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HumanTrafficking -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HumanTrafficking">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HumanTraffickingComercialSexActs -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HumanTraffickingComercialSexActs">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HumanTraffickingInvoluntaryServitude -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HumanTraffickingInvoluntaryServitude">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Kidnapping -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Kidnapping">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#KidnappingGrandAttempt -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#KidnappingGrandAttempt">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#LasciviousActWithChild -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#LasciviousActWithChild">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#LewdConduct -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#LewdConduct">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllLewdConduct"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#PeepingTom"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Moderate -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Moderate">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeCategory"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#MotorVehicleTheft -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#MotorVehicleTheft">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Narcotics -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Narcotics">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllNarcotics"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#NonCriminalHomicide -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#NonCriminalHomicide">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHomicide"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#OffenseInvolvingChildren -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#OffenseInvolvingChildren">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Serious"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#OralCopulation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#OralCopulation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#PeepingTom -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#PeepingTom">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllLewdConduct"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Rape -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Rape">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#RapeAttempted -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#RapeAttempted">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Rape"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#RapeForcibile"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#RapeForcibile -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#RapeForcibile">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Rape"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Robbery -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Robbery">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllRobbery"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Serious -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Serious">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CrimeCategory"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffenderRegistrantOutOfCompilance -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffenderRegistrantOutOfCompilance">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Moderate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffense -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffense">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Shooting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexUnlawfulIncMutualConsentPenetrationWithFrgnObject -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexUnlawfulIncMutualConsentPenetrationWithFrgnObject">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Moderate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexualContactWithPenisOfOnePersToAnusOth -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexualContactWithPenisOfOnePersToAnusOth">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexualPenetrationWithFrgnObject -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexualPenetrationWithFrgnObject">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Shooting -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Shooting">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ShotsFiredAtInhabitedDwelling -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ShotsFiredAtInhabitedDwelling">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Shooting"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ShotsFiredAtMovingVehicle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ShotsFiredAtMovingVehicle -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ShotsFiredAtMovingVehicle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Shooting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Stalking -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Stalking">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Serious"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Theft -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Theft">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Moderate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromMotorVehicleAttempt -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromMotorVehicleAttempt">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBurglary"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromMotorVehicleGrand -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromMotorVehicleGrand">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBurglary"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromMotorVehiclePetty -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromMotorVehiclePetty">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllBurglary"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromPersonAttempted -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromPersonAttempted">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Theft"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftPerson -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftPerson">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Theft"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Threat -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Threat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Moderate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#VehicleAttemptStolen -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#VehicleAttemptStolen">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#VehicleStolen -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#VehicleStolen">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#VehicleStolenOthers -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#VehicleStolenOthers">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#WeaponsViolation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#WeaponsViolation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Serious"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllAssault"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllCriminalSexualAssualt"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllHumanTrafficking"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Arson"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ChildPornography"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Shooting"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllLewdConduct"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexOffenderRegistrantOutOfCompilance"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexUnlawfulIncMutualConsentPenetrationWithFrgnObject"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Theft"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Threat"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllNarcotics"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AllRobbery"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#OffenseInvolvingChildren"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Stalking"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#WeaponsViolation"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Assault"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#AssualtWithDeadlyWeapon"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BatterySimpleAssault"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Battery"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BatterySimpleAssault"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BatteryWithSexualContact"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BikeTheft"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#EmbezzlementGrandTheft"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromPersonAttempted"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftPerson"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryAttempted"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicle"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#BurglaryFromVehicleAttempted"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromMotorVehicleAttempt"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromMotorVehicleGrand"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#TheftFromMotorVehiclePetty"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#ChildStealing"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HumanTrafficking"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HumanTraffickingComercialSexActs"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#HumanTraffickingInvoluntaryServitude"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Kidnapping"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#KidnappingGrandAttempt"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#CriminalSexualAssualt"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#LasciviousActWithChild"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#OralCopulation"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Rape"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexualContactWithPenisOfOnePersToAnusOth"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#SexualPenetrationWithFrgnObject"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Critical"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Moderate"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#Serious"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#MotorVehicleTheft"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#VehicleAttemptStolen"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#VehicleStolen"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/team4/ontologies/2024/10/smartHabitat#VehicleStolenOthers"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+
